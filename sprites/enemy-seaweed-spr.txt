@@ -1,0 +1,20 @@
+<HEADER>
+frames 2
+width 2
+height 3
+color blue
+slowdown 10
+</HEADER>
+<BODY>
+//
+\\
+//
+end
+\\
+//
+\\
+end
+</BODY>
+<FOOTER>
+version 1
+</FOOTER>

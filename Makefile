@@ -23,24 +23,25 @@ CC= g++
 
 # 2) Uncomment below for Mac (64-bit)
 LINKLIB= -ldragonfly-mac64 -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio 
-LINKDIR= -L/usr/local/Cellar/sfml/2.3_1/lib/ -L../dragonfly/lib/ 
-INCDIR= -I/usr/local/Cellar/sfml/2.3_1/include/ -I../dragonfly/include/
+LINKDIR= -L/usr/local/Cellar/sfml/2.5.1/lib/ -L../dragonfly/lib/ 
+INCDIR= -I/usr/local/Cellar/sfml/2.5_1/include/ -I../dragonfly/include/
 
 ######
 
 GAMESRC= \
 
-GAME= game.cpp
+GAME= game.cpp Spawner.cpp GameOver.cpp GameStart.cpp Explosion.cpp Points.cpp Enemy.cpp Lives.cpp EventDeath.cpp HighScore.cpp Scroller.cpp Ground.cpp Player.cpp
 EXECUTABLE= game
 OBJECTS= $(GAMESRC:.cpp=.o)
+CFLAGS:= $(CFLAGS) -std=c++11
 
 all: $(EXECUTABLE) Makefile
 
 $(EXECUTABLE): $(ENGINE) $(OBJECTS) $(GAME) $(GAMESRC) 
-	$(CC) $(GAME) $(OBJECTS) -o $@ $(INCDIR) $(LINKDIR) $(LINKLIB) 
+	$(CC) $(CFLAGS) $(GAME) $(OBJECTS) -o $@ $(INCDIR) $(LINKDIR) $(LINKLIB) 
 
 .cpp.o: 
-	$(CC) -c $(INCDIR) $< -o $@
+	$(CC) $(CFLAGS) -c $(INCDIR) $< -o $@
 
 clean:
 	rm -rf $(OBJECTS) $(EXECUTABLE) core dragonfly.log Makefile.bak *~
