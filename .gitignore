@@ -1,1 +1,15 @@
 *.log
+*.filters
+fishy_game.vcxproj
+fishy_game.vcxproj.user
+fishy_game.sln
+*.ipch
+*.opendb
+*.db-shm
+.vs/fishy_game/v16/.suo
+*.db-wal
+*.db
+*.dll
+*.recipe
+game
+.DS_Store
