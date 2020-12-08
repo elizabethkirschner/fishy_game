@@ -6,7 +6,6 @@
 #include "EventStep.h"
 
 #include "Enemy.h"
-#include "GameOver.h"
 #include "Spawner.h"
 #include "Explosion.h"
 #include <stdlib.h>
@@ -28,7 +27,6 @@ Spawner::Spawner() {
 }
 
 Spawner::~Spawner() {
-  GameOver *p_go = new GameOver;
 }
 
 int Spawner::eventHandler(const df::Event *p_e) {
@@ -42,7 +40,7 @@ int Spawner::eventHandler(const df::Event *p_e) {
     }
 
     if (p_step_event->getStepCount() % 300 == 0) {
-        LM.writeLog("time to spawn again");
+        //LM.writeLog("time to spawn again");
        // powerup();
     }
     return 1;

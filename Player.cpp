@@ -7,11 +7,10 @@
 #include "WorldManager.h"
 #include "EventCollision.h"
 #include "ObjectList.h"
+#include "LogManager.h"
 
 // Game includes.
 #include "Explosion.h"
-#include "GameOver.h"
-
 
 Player::Player() {
 
@@ -27,12 +26,9 @@ Player::Player() {
 
 	move_slowdown = 2;
 	move_countdown = move_slowdown;
-	//setVelocity(df::Vector(0, .1));
 
-	canJump = 1;
-
+	canJump = 0;
 	move_speed = 2;
-
 	gravity = .01;
 
 	speedUp = false;
@@ -47,10 +43,7 @@ Player::Player() {
 	
 }
 
-Player::~Player() {
-
-	new GameOver;
-}
+Player::~Player() { }
 
 int Player::eventHandler(const df::Event* p_e) {
 
@@ -70,6 +63,8 @@ int Player::eventHandler(const df::Event* p_e) {
 		df::EventCollision* ec = (df::EventCollision*) p_e;
 		if ((ec->getObject1()->getType() == "Ground") || (ec->getObject2()->getType() == "Ground")) {
 			canJump = 1;
+			df::Vector velocity = getVelocity();
+			setVelocity(df::Vector(velocity.getX(), 0));
 		}
 	}
 
@@ -86,7 +81,7 @@ void Player::kbd(const df::EventKeyboard* p_keyboard_event) {
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
 			move(+move_speed);
 		break;
-	case df::Keyboard::SPACE:   // nuke!
+	case df::Keyboard::SPACE:   // jump
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED){
 			if (canJump > 0) {
 				setVelocity(df::Vector(getVelocity().getX(), -.3));
@@ -168,7 +163,7 @@ void Player::jump() {
 }
 void Player::step() {
 
-	LM.writeLog("%d\n\n", speedUpCount);
+	//LM.writeLog("%d", speedUpCount);
 	move_countdown--;
 	if (move_countdown < 0) {
 		move_countdown = 0;
@@ -191,7 +186,6 @@ void Player::step() {
 			move_speed = 2;
 			slowDownCount = 150;
 			setSprite("player");
-
 		}
 	}
 
@@ -202,7 +196,6 @@ void Player::step() {
 			gravity = .01;
 			hopsCount = 150;
 			setSprite("player");
-
 		}
 	}
 
@@ -225,6 +218,11 @@ void Player::step() {
 	}
 
 	df::Vector velocity = getVelocity();
-	setVelocity(df::Vector(velocity.getX(), velocity.getY() + gravity));
+	if (canJump == 0) {
+		setVelocity(df::Vector(velocity.getX(), velocity.getY() + gravity));
+	}
+	else {
+		setVelocity(df::Vector(velocity.getX(), velocity.getY()));
+	}
 
 }

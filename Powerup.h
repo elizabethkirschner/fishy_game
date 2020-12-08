@@ -14,5 +14,4 @@ public:
     void moveToStart(int y);
     void out();
     void hit(const df::EventCollision* p_c);
-
 };

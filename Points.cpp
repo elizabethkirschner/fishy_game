@@ -33,7 +33,7 @@ int Points::eventHandler(const df::Event *p_e) {
     lives--;
 
     if (lives == 0) {
-        new GameOver;
+      new GameOver;
     }
   }
 
