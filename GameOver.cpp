@@ -24,9 +24,16 @@ GameOver::GameOver() {
   setAltitude(df::MAX_ALTITUDE);
 
   df::ObjectList spawner = WM.objectsOfType("Spawner");
-  df::ObjectListIterator i(&spawner);
-  for (i.first(); !i.isDone(); i.next()) {
-    df::Object *p_o = i.currentObject();
+  df::ObjectListIterator s(&spawner);
+  for (s.first(); !s.isDone(); s.next()) {
+    df::Object *p_o = s.currentObject();
+    WM.markForDelete(p_o);
+  }
+
+    df::ObjectList player = WM.objectsOfType("Player");
+  df::ObjectListIterator p(&player);
+  for (p.first(); !p.isDone(); p.next()) {
+    df::Object *p_o = p.currentObject();
     WM.markForDelete(p_o);
   }
 
@@ -62,12 +69,12 @@ GameOver::~GameOver() {
   df::ObjectListIterator i(&object_list);
   for (i.first(); !i.isDone(); i.next()) {
     df::Object *p_o = i.currentObject();
-    if (p_o -> getType() == "ViewObject" || p_o -> getType() == "Powerup" || p_o -> getType() == "Scroller" ||
-        p_o -> getType() == "Enemy" || p_o -> getType() == "Ground"|| p_o -> getType() == "Player")
-      WM.markForDelete(p_o);
     if (p_o -> getType() == "GameStart") {
       p_o -> setActive(true);
       //dynamic_cast <GameStart *> (p_o) -> playMusic(); // Resume start music.
+    }
+    else {
+      WM.markForDelete(p_o);
     }
   }
 }

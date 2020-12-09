@@ -1,12 +1,14 @@
-#include "GameStart.h"
+// Engine includes.
 #include "WorldManager.h"
 #include "ResourceManager.h"
 #include "LogManager.h"
 #include "GameManager.h"
 #include "EventKeyboard.h"
-
 #include "Color.h"
 #include "Music.h"
+
+// Game includes.
+#include "GameStart.h"
 #include "Points.h"
 #include "Spawner.h"
 #include "Lives.h"
@@ -14,6 +16,8 @@
 #include "HighScore.h"
 #include "Player.h"
 #include "Scroller.h"
+#include "Background.h"
+#include "Bubble.h"
 
 GameStart::GameStart() {
 
@@ -60,7 +64,12 @@ void GameStart::start() {
   new HighScore;
 
   new Ground;
+  //new Background;
   new Player;
+
+  for (int i = 0; i < 8; i++) {
+    new Bubble;
+  }
 
   new Scroller;
 

@@ -5,6 +5,7 @@
 #include "Color.h"
 #include "GameStart.h"
 #include "Pause.h"
+#include "Bubble.h"
 
 void loadResources(void);
 void populateWorld(void);
@@ -32,7 +33,7 @@ int main(int argc, char* argv[]) {
 }
 
 void loadResources(void) {
-    RM.loadSprite("sprites/saucer-spr.txt", "enemy");
+    RM.loadSprite("sprites/saucer-spr.txt", "saucer");
     RM.loadSprite("sprites/ship-spr.txt", "ship");
     RM.loadSprite("sprites/bullet-spr.txt", "bullet");
     RM.loadSprite("sprites/explosion-spr.txt", "explosion");
@@ -44,6 +45,7 @@ void loadResources(void) {
     RM.loadSprite("sprites/player-spr.txt", "player");
     RM.loadSprite("sprites/player-crouch-spr.txt", "player-crouch");
     RM.loadSprite("sprites/player-powered-spr.txt", "powered-up");
+    RM.loadSprite("sprites/background1-spr.txt", "background");
 
     // RM.loadSound("sounds/fire.wav", "fire");
     // RM.loadSound("sounds/explode.wav", "explode");
@@ -54,10 +56,6 @@ void loadResources(void) {
 }
 
 void populateWorld(void) {
-
-    // Create some Stars.
-    // for (int i=0; i<16; i++) 
-    //   new Star;
 
     // Spawn GameStart object.
     new GameStart();

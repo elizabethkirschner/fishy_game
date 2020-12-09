@@ -14,16 +14,11 @@ Enemy::Enemy(std::string spriteName) {
   setType("Enemy");
 
   if (spriteName == FISH_ENEMY){
-      moveToStart(15);
+      moveToStart(15.2);
       }
   else if (spriteName == SEAWEED_ENEMY) {
       moveToStart(18);
   }
-
-  // TODO: do this elsewhere
-  //setVelocity(df::Vector(-0.25,0)); // 1 space left every 4 frames
-
-  //moveToStart();
 }
 
 int Enemy::eventHandler(const df::Event *p_e) {
@@ -48,14 +43,14 @@ void Enemy::out() {
   WM.markForDelete(this);
 }
 
-void Enemy::moveToStart(int y) {
+void Enemy::moveToStart(float y) {
   df::Vector temp_pos;
 
   float world_horiz = WM.getBoundary().getHorizontal();
   float world_vert = WM.getBoundary().getVertical();
 
   // TODO: maybe move back to spawner
-  temp_pos.setX(world_horiz);//world_horiz + rand() % (int) world_horiz + 3.0f);
+  temp_pos.setX(world_horiz);
 
   // y is in vertical range.
   // TODO: make this a global declared elsewhere

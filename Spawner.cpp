@@ -8,8 +8,10 @@
 #include "Enemy.h"
 #include "Spawner.h"
 #include "Explosion.h"
-#include <stdlib.h>
 #include "Powerup.h"
+#include "Bubble.h"
+
+#include <stdlib.h>
 
 Spawner::Spawner() {
   registerInterest(df::STEP_EVENT);
@@ -42,6 +44,11 @@ int Spawner::eventHandler(const df::Event *p_e) {
     if (p_step_event->getStepCount() % 300 == 0) {
         //LM.writeLog("time to spawn again");
        // powerup();
+    }
+    if (p_step_event->getStepCount() % 30 == 0) {
+        //LM.writeLog("time to spawn again");
+       //bubble()
+      //new Bubble;
     }
     return 1;
   }

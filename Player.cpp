@@ -43,7 +43,13 @@ Player::Player() {
 	
 }
 
-Player::~Player() { }
+Player::~Player() { 
+  // Make a big explosion with particles.
+  df::addParticles(df::SPARKS, getPosition(), 2, df::BLUE);
+  df::addParticles(df::SPARKS, getPosition(), 2, df::YELLOW);
+  df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
+  df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
+}
 
 int Player::eventHandler(const df::Event* p_e) {
 
@@ -92,9 +98,11 @@ void Player::kbd(const df::EventKeyboard* p_keyboard_event) {
 	case df::Keyboard::S:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
 			setSprite("player-crouch");
+			setPosition(df::Vector(getPosition().getX(), getPosition().getY() + 0.5));
 		}
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
 			setSprite("player");
+			setPosition(df::Vector(getPosition().getX(), getPosition().getY() - 0.5));
 		}
 		break;
 	case df::Keyboard::U:
