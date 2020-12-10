@@ -28,8 +28,7 @@ Spawner::Spawner() {
   setAltitude(df::MAX_ALTITUDE);
 }
 
-Spawner::~Spawner() {
-}
+Spawner::~Spawner() {}
 
 int Spawner::eventHandler(const df::Event *p_e) {
 
@@ -40,19 +39,12 @@ int Spawner::eventHandler(const df::Event *p_e) {
     if (p_step_event -> getStepCount() % 150 == 0) {
       spawn();
     }
-
     if (p_step_event->getStepCount() % 300 == 0) {
         //LM.writeLog("time to spawn again");
-       // powerup();
-    }
-    if (p_step_event->getStepCount() % 30 == 0) {
-        //LM.writeLog("time to spawn again");
-       //bubble()
-      //new Bubble;
+       power();
     }
     return 1;
   }
- 
   return 0;
 }
 
@@ -72,22 +64,22 @@ void Spawner::spawn() {
 
 }
 
-/*
-void Spawner::powerup() {
-    int chance = rand() % 100;
+void Spawner::power() {
+  int chance = rand() % 100;
 
-    // TODO: create new enemy types
-    if (chance <= 30) {
-        new Powerup(PLACEHOLDER_POWERUP);
-    }
-
-    else if (chance <= 60) {
-        new Powerup(PLACEHOLDER_POWERUP_2);
-    }
-    else if (chance <= 99) {
-
-    }
-}*/
+  if (chance <= 25) {
+    new Powerup(INVINCIBLE_POWERUP);
+  }
+   else if (chance <= 50) {
+    new Powerup(JUMP_POWERUP);
+  }
+  else if (chance <= 75) {
+    new Powerup(SPEED_POWERUP);
+  }
+    else if (chance <= 100) {
+    new Powerup(SLOW_POWERUP);
+  }
+}
 
 // Take appropriate action according to mouse action.
 void Spawner::mouse(const df::EventMouse *p_mouse_event) {

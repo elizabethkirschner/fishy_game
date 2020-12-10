@@ -14,11 +14,17 @@ Powerup::Powerup(std::string spriteName) {
     setSprite(spriteName);
     setType("Powerup");
 
-    if (spriteName == PLACEHOLDER_POWERUP) {
+    if (spriteName == INVINCIBLE_POWERUP) {
         moveToStart(15);
     }
-    else if (spriteName == PLACEHOLDER_POWERUP_2) {
-        moveToStart(18);
+    else if (spriteName == JUMP_POWERUP) {
+        moveToStart(16.9);
+    }
+    else if (spriteName == SPEED_POWERUP) {
+        moveToStart(14);
+    }
+    else if (spriteName == SLOW_POWERUP) {
+        moveToStart(15);
     }
 
     // TODO: do this elsewhere
@@ -48,7 +54,7 @@ void Powerup::out() {
     WM.markForDelete(this);
 }
 
-void Powerup::moveToStart(int y) {
+void Powerup::moveToStart(double y) {
     df::Vector temp_pos;
 
     float world_horiz = WM.getBoundary().getHorizontal();

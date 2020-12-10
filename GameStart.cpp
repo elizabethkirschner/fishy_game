@@ -34,7 +34,7 @@ int GameStart::eventHandler(const df::Event *p_e) {
   if (p_e->getType() == df::KEYBOARD_EVENT) {
     df::EventKeyboard *p_keyboard_event = (df::EventKeyboard *) p_e;
     switch (p_keyboard_event->getKey()) {
-      case df::Keyboard::P: 			// play
+      case df::Keyboard::SPACE: // play
         start();
       break;
       case df::Keyboard::Q:			// quit

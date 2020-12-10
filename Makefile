@@ -30,7 +30,7 @@ INCDIR= -I/usr/local/Cellar/sfml/2.5_1/include/ -I../dragonfly/include/
 
 GAMESRC= \
 
-GAME= game.cpp Spawner.cpp GameOver.cpp GameStart.cpp Explosion.cpp Points.cpp Enemy.cpp Lives.cpp EventDeath.cpp HighScore.cpp Scroller.cpp Ground.cpp Player.cpp Background.cpp Bubble.cpp
+GAME= game.cpp Spawner.cpp GameOver.cpp GameStart.cpp Explosion.cpp Points.cpp Enemy.cpp Lives.cpp EventDeath.cpp HighScore.cpp Scroller.cpp Ground.cpp Player.cpp Background.cpp Bubble.cpp DeadPlayer.cpp Powerup.cpp
 EXECUTABLE= game
 OBJECTS= $(GAMESRC:.cpp=.o)
 CFLAGS:= $(CFLAGS) -std=c++11

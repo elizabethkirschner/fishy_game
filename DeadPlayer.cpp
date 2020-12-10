@@ -1,27 +1,20 @@
-#include "GameOver.h"
-#include "EventStep.h"
+// Engine includes.
 #include "WorldManager.h"
 #include "ResourceManager.h"
 #include "LogManager.h"
+#include "EventOut.h"
 
-#include "GameStart.h"
+// Game includes.
+#include "DeadPlayer.h"
+#include "GameStart.h"  
 
-GameOver::GameOver() {
+DeadPlayer::DeadPlayer(df::Vector position) {
+  setType("DeadPlayer");
+  setSprite("dead-player");
 
-  setType("GameOver");
-
-  // Link to "message" sprite.
-  if (setSprite("gameover") == 0)
-    time_to_live = getAnimation().getSprite()->getFrameCount() * getAnimation().getSprite()->getSlowdown();
-  else
-    time_to_live = 0;
-
-  // Put in center of window.
-  setLocation(df::CENTER_CENTER);
-
-  // Register for step event.
-  registerInterest(df::STEP_EVENT);
   setAltitude(df::MAX_ALTITUDE);
+  setPosition(position);
+  setVelocity(df::Vector(0, -0.15));
 
   df::ObjectList spawner = WM.objectsOfType("Spawner");
   df::ObjectListIterator s(&spawner);
@@ -36,34 +29,28 @@ GameOver::GameOver() {
     df::Object *p_o = p.currentObject();
     WM.markForDelete(p_o);
   }
-
-  // Play "game over" sound.
-  //df::Sound *p_sound = RM.getSound("game over");
-  //p_sound->play();
-
 }
 
-// Count down to end of message.
-void GameOver::step() {
-  time_to_live--;
-  if (time_to_live <= 0) 
-    WM.markForDelete(this);
-}
-
-int GameOver::eventHandler(const df::Event *p_e) {
-  if (p_e->getType() == df::STEP_EVENT) {
-    step();
+int DeadPlayer::eventHandler(const df::Event *p_e) {
+  if (p_e->getType() == df::OUT_EVENT) {
+    out();
     return 1;
   }
   return 0;
 }
 
-// Override default draw so as not to display "value".
-int GameOver::draw() {
-  return df::Object::draw();
+void DeadPlayer::out() {
+ if (getPosition().getY() < 0) {
+   WM.markForDelete(this);
+ }
 }
 
-GameOver::~GameOver() {
+// Override default draw so as not to display "value".
+// int DeadPlayer::draw() {
+//   return df::Object::draw();
+// }
+
+DeadPlayer::~DeadPlayer() {
   // Remove Enemys and ViewObjects, re-activate GameStart.
   df::ObjectList object_list = WM.getAllObjects(true);
   df::ObjectListIterator i(&object_list);

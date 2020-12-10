@@ -46,6 +46,12 @@ void loadResources(void) {
     RM.loadSprite("sprites/player-crouch-spr.txt", "player-crouch");
     RM.loadSprite("sprites/player-powered-spr.txt", "powered-up");
     RM.loadSprite("sprites/background1-spr.txt", "background");
+    RM.loadSprite("sprites/dead-player-spr.txt", "dead-player");
+    
+    RM.loadSprite("sprites/powerups/invincible-powerup-spr.txt", "invincible-powerup");
+    RM.loadSprite("sprites/powerups/jump-powerup-spr.txt", "jump-powerup");
+    RM.loadSprite("sprites/powerups/slow-powerup-spr.txt", "slow-powerup");
+    RM.loadSprite("sprites/powerups/speed-powerup-spr.txt", "speed-powerup");
 
     // RM.loadSound("sounds/fire.wav", "fire");
     // RM.loadSound("sounds/explode.wav", "explode");

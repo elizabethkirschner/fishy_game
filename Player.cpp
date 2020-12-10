@@ -1,15 +1,15 @@
-#include "Player.h"
-#include "EventStep.h"
-#include "EventView.h"
+// Engine includes.
 #include "GameManager.h"
 #include "LogManager.h"
 #include "ResourceManager.h"
 #include "WorldManager.h"
+#include "EventStep.h"
+#include "EventView.h"
 #include "EventCollision.h"
 #include "ObjectList.h"
-#include "LogManager.h"
 
 // Game includes.
+#include "Player.h"
 #include "Explosion.h"
 
 Player::Player() {
@@ -21,7 +21,7 @@ Player::Player() {
 	registerInterest(df::KEYBOARD_EVENT);
 	registerInterest(df::COLLISION_EVENT);
 
-	df::Vector p(7, WM.getBoundary().getVertical() / 2);
+	df::Vector p(6.5, WM.getBoundary().getVertical() / 2);
 	setPosition(p);
 
 	move_slowdown = 2;
@@ -45,10 +45,10 @@ Player::Player() {
 
 Player::~Player() { 
   // Make a big explosion with particles.
-  df::addParticles(df::SPARKS, getPosition(), 2, df::BLUE);
-  df::addParticles(df::SPARKS, getPosition(), 2, df::YELLOW);
-  df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
-  df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
+  // df::addParticles(df::SPARKS, getPosition(), 2, df::BLUE);
+  // df::addParticles(df::SPARKS, getPosition(), 2, df::YELLOW);
+  // df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
+  // df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
 }
 
 int Player::eventHandler(const df::Event* p_e) {
@@ -166,9 +166,6 @@ void Player::move(int dx) {
 	}
 }
 
-void Player::jump() {
-
-}
 void Player::step() {
 
 	//LM.writeLog("%d", speedUpCount);

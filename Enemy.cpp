@@ -17,7 +17,7 @@ Enemy::Enemy(std::string spriteName) {
       moveToStart(15.2);
       }
   else if (spriteName == SEAWEED_ENEMY) {
-      moveToStart(18);
+      moveToStart(16.95);
   }
 }
 

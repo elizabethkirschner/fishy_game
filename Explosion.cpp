@@ -1,7 +1,3 @@
-//
-// Explosion.cpp
-//
-
 // Engine includes.
 #include "DisplayManager.h"
 #include "EventStep.h"
