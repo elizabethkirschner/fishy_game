@@ -1,15 +1,15 @@
-#include "Player.h"
-#include "EventStep.h"
-#include "EventView.h"
+// Engine includes
 #include "GameManager.h"
 #include "LogManager.h"
 #include "ResourceManager.h"
 #include "WorldManager.h"
+#include "EventStep.h"
+#include "EventView.h"
 #include "EventCollision.h"
 #include "ObjectList.h"
-#include "LogManager.h"
 
 // Game includes.
+#include "Player.h"
 #include "Explosion.h"
 
 
@@ -22,7 +22,7 @@ Player::Player() {
 	registerInterest(df::KEYBOARD_EVENT);
 	registerInterest(df::COLLISION_EVENT);
 
-	df::Vector p(7, WM.getBoundary().getVertical() / 2);
+	df::Vector p(6.5, WM.getBoundary().getVertical() / 2);
 	setPosition(p);
 
 	move_slowdown = 2;
@@ -50,10 +50,10 @@ Player::Player() {
 
 Player::~Player() {
 	// Make a big explosion with particles
-	df::addParticles(df::SPARKS, getPosition(), 2, df::BLUE);
+	/*df::addParticles(df::SPARKS, getPosition(), 2, df::BLUE);
 	df::addParticles(df::SPARKS, getPosition(), 2, df::YELLOW);
 	df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
-	df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
+	df::addParticles(df::SPARKS, getPosition(), 3, df::RED);*/
 }
 
 int Player::eventHandler(const df::Event* p_e) {
@@ -77,12 +77,44 @@ int Player::eventHandler(const df::Event* p_e) {
 			df::Vector velocity = getVelocity();
 			setVelocity(df::Vector(velocity.getX(), 0));
 		}
-		if ((ec->getObject1()->getType() == "Powerup") || (ec->getObject2()->getType() == "Powerup")) {
+		if ((ec->getObject1()->getType() == "JumpHigh") || (ec->getObject2()->getType() == "JumpHigh")) {
 			gotHops = true;
 			//gravity = .001;
 			maxHeight = maxHeight / 1.5;
 			setSprite("powered-up");
-			if (ec->getObject1()->getType() == "Powerup") {
+			if (ec->getObject1()->getType() == "JumpHigh") {
+				WM.markForDelete(ec->getObject1());
+			}
+			else WM.markForDelete(ec->getObject2());
+		}
+
+		if ((ec->getObject1()->getType() == "Invincible") || (ec->getObject2()->getType() == "Invincible")) {
+			isInvinc = true;
+			setSprite("powered-up");
+
+			
+			if (ec->getObject1()->getType() == "Invincible") {
+				WM.markForDelete(ec->getObject1());
+			}
+			else WM.markForDelete(ec->getObject2());
+		}
+
+		if ((ec->getObject1()->getType() == "SpeedUp") || (ec->getObject2()->getType() == "SpeedUp")) {
+			speedUp = true;
+			move_speed = 4;
+
+			setSprite("powered-up");
+			if (ec->getObject1()->getType() == "SpeedUp") {
+				WM.markForDelete(ec->getObject1());
+			}
+			else WM.markForDelete(ec->getObject2());
+		}
+
+		if ((ec->getObject1()->getType() == "SlowDown") || (ec->getObject2()->getType() == "SlowDown")) {
+			slowDown = true;
+			move_speed = 1;
+			setSprite("powered-up");
+			if (ec->getObject1()->getType() == "SlowDown") {
 				WM.markForDelete(ec->getObject1());
 			}
 			else WM.markForDelete(ec->getObject2());
@@ -189,9 +221,6 @@ void Player::move(int dx) {
 	}
 }
 
-void Player::jump() {
-
-}
 void Player::step() {
 
 	//LM.writeLog("%d\n\n", speedUpCount);
@@ -232,6 +261,13 @@ void Player::step() {
 	}
 
 	if (isInvinc == true) {
+		df::ObjectList list;
+		df::ObjectListIterator i(&list);
+		list = WM.objectsOfType("Enemy");
+		for (i.first(); !i.isDone(); i.next()) {
+			df::Object* p_o = i.currentObject();
+			p_o->setSolidness(df::Solidness::SPECTRAL);
+		}
 		invincCount--;
 		if (invincCount <= 0) {
 			setSprite("player");

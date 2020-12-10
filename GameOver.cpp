@@ -2,8 +2,9 @@
 #include "EventStep.h"
 #include "WorldManager.h"
 #include "ResourceManager.h"
-#include "GameStart.h"
 #include "LogManager.h"
+
+#include "GameStart.h"
 
 GameOver::GameOver() {
 
@@ -26,6 +27,13 @@ GameOver::GameOver() {
   df::ObjectListIterator s(&spawner);
   for (s.first(); !s.isDone(); s.next()) {
       df::Object* p_o = s.currentObject();
+      WM.markForDelete(p_o);
+  }
+
+  df::ObjectList player = WM.objectsOfType("Player");
+  df::ObjectListIterator p(&player);
+  for (p.first(); !p.isDone(); p.next()) {
+      df::Object* p_o = p.currentObject();
       WM.markForDelete(p_o);
   }
 

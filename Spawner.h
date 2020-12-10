@@ -8,12 +8,11 @@ class Spawner : public df::Object {
   void mouse(const df::EventMouse *p_mouse_event);
   void kbd(const df::EventKeyboard *keyboard_event);
   void spawn();
-  //void powerup();
+  void power();
 
  public:
   Spawner();
   ~Spawner();
   int eventHandler(const df::Event *p_e);
-  void powerup();
 
 };

@@ -1,11 +1,16 @@
-#include "Points.h"
-#include "EventStep.h"
+// Engine includes
 #include "WorldManager.h"
-#include "HighScore.h"
-#include "EventView.h"
 #include "LogManager.h"
-#include "EventDeath.h"
+#include "EventStep.h"
+#include "EventView.h"
+
+// Game includes
+#include "Points.h"
 #include "GameOver.h"
+#include "DeadPlayer.h"
+#include "HighScore.h"
+#include "EventDeath.h"
+
 
 Points::Points() {
   highScore = 0;
@@ -18,7 +23,6 @@ Points::Points() {
   // Need to update score each second, so count "step" events.
   registerInterest(df::STEP_EVENT);
   registerInterest(DEATH_EVENT);
-
 }
 
 int Points::eventHandler(const df::Event *p_e) {
@@ -33,7 +37,13 @@ int Points::eventHandler(const df::Event *p_e) {
     lives--;
 
     if (lives == 0) {
-        new GameOver;
+        df::ObjectList player = WM.objectsOfType("Player");
+        df::ObjectListIterator p(&player);
+        for (p.first(); !p.isDone(); p.next()) {
+            df::Object* p_o = p.currentObject();
+            new DeadPlayer(p_o->getPosition());
+        }
+       // new GameOver;
     }
   }
 

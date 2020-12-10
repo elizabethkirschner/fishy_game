@@ -12,14 +12,23 @@
 
 Powerup::Powerup(std::string spriteName) {
     setSprite(spriteName);
-    setType("Powerup");
     LM.writeLog("POWERUP TIME.\n\n\n");
 
-    if (spriteName == PLACEHOLDER_POWERUP) {
+    if (spriteName == INVINCIBLE_POWERUP) {
         moveToStart(15);
+        setType("Invincible");
     }
-    else if (spriteName == PLACEHOLDER_POWERUP_2) {
-        moveToStart(18);
+    else if (spriteName == JUMP_POWERUP) {
+        moveToStart(16.9);
+        setType("JumpHigh");
+    }
+    else if (spriteName == SPEED_POWERUP) {
+        moveToStart(14);
+        setType("SpeedUp");
+    }
+    else if (spriteName == SLOW_POWERUP) {
+        moveToStart(15);
+        setType("SlowDown");
     }
 
     // TODO: do this elsewhere
@@ -49,7 +58,7 @@ void Powerup::out() {
     WM.markForDelete(this);
 }
 
-void Powerup::moveToStart(int y) {
+void Powerup::moveToStart(double y) {
     df::Vector temp_pos;
 
     float world_horiz = WM.getBoundary().getHorizontal();
@@ -79,12 +88,12 @@ void Powerup::hit(const df::EventCollision* p_c) {
         return;
     }
 
-    if (((p_c->getObject1()->getType()) == "Player") ||
+  /*  if (((p_c->getObject1()->getType()) == "Player") ||
         ((p_c->getObject2()->getType()) == "Player")) {
 
         EventDeath d;
         WM.onEvent(&d);
-    }
+    }*/
 }
 
 Powerup::~Powerup() {}

@@ -8,19 +8,16 @@
 #include "Points.h"
 #include "EventDeath.h"
 #include "Lives.h"
-#include "LogManager.h"
 
 Enemy::Enemy(std::string spriteName) {
   setSprite(spriteName);
   setType("Enemy");
-  setAltitude(3);
 
   if (spriteName == FISH_ENEMY){
       moveToStart(15.2);
       }
   else if (spriteName == SEAWEED_ENEMY) {
-      moveToStart(17.1);
-      LM.writeLog("Seaweed.\n");
+      moveToStart(16.95);
   }
 }
 
@@ -76,32 +73,10 @@ void Enemy::hit(const df::EventCollision *p_c) {
     return;
   }  
 
-  /*
-  // If Bullet...
-  if ((p_c -> getObject1() -> getType() == "Bullet") ||
-      (p_c -> getObject2() -> getType() == "Bullet")) {
-    
-    isDeath = false;
-
-    // Create an explosion.
-    Explosion *p_explosion = new Explosion;
-    p_explosion -> setPosition(this -> getPosition());
-
-    // Enemys appear stay around perpetually.
-    new Enemy;
-
-    // Play "explode" sound.
-    df::Sound *p_sound = RM.getSound("explode");
-    p_sound->play();
-  }
-  */
 
   if (((p_c -> getObject1() -> getType()) == "Player") || 
       ((p_c -> getObject2() -> getType()) == "Player")) {
 
-    // lose 50 points for loss of life
-   // df::EventView evPoints(POINTS_STRING, -50, true);
-    //WM.onEvent(&evPoints);
 
       df::EventView evLives(LIVES_STRING, -1, true);
       WM.onEvent(&evLives);

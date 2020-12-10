@@ -35,8 +35,9 @@ int GameStart::eventHandler(const df::Event *p_e) {
     df::EventKeyboard *p_keyboard_event = (df::EventKeyboard *) p_e;
     switch (p_keyboard_event->getKey()) {
       case df::Keyboard::P: 			// play
-        start();
-      break;
+      case df::Keyboard::SPACE:
+          start();
+          break;
       case df::Keyboard::Q:			// quit
         GM.setGameOver();
       break;
