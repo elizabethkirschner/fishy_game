@@ -80,6 +80,8 @@ void Enemy::hit(const df::EventCollision *p_c) {
 
       df::EventView evLives(LIVES_STRING, -1, true);
       WM.onEvent(&evLives);
+      df::Sound* p_sound = RM.getSound("impact");
+      p_sound->play();
 
     EventDeath death;
     WM.onEvent(&death);

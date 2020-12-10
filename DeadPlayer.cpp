@@ -15,6 +15,8 @@ DeadPlayer::DeadPlayer(df::Vector position) {
     setAltitude(df::MAX_ALTITUDE);
     setPosition(position);
     setVelocity(df::Vector(0, -0.15));
+    df::Sound* p_sound = RM.getSound("death");
+    p_sound->play();
 
     df::ObjectList spawner = WM.objectsOfType("Spawner");
     df::ObjectListIterator s(&spawner);

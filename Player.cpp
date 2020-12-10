@@ -7,6 +7,7 @@
 #include "EventView.h"
 #include "EventCollision.h"
 #include "ObjectList.h"
+#include "ResourceManager.h"
 
 // Game includes.
 #include "Player.h"
@@ -81,6 +82,8 @@ int Player::eventHandler(const df::Event* p_e) {
 			gotHops = true;
 			//gravity = .001;
 			maxHeight = maxHeight / 1.5;
+			df::Sound* p_sound = RM.getSound("powerup");
+			p_sound->play();
 			setSprite("powered-up");
 			if (ec->getObject1()->getType() == "JumpHigh") {
 				WM.markForDelete(ec->getObject1());
@@ -91,6 +94,8 @@ int Player::eventHandler(const df::Event* p_e) {
 		if ((ec->getObject1()->getType() == "Invincible") || (ec->getObject2()->getType() == "Invincible")) {
 			isInvinc = true;
 			setSprite("powered-up");
+			df::Sound* p_sound = RM.getSound("powerup");
+			p_sound->play();
 
 			
 			if (ec->getObject1()->getType() == "Invincible") {
@@ -102,6 +107,8 @@ int Player::eventHandler(const df::Event* p_e) {
 		if ((ec->getObject1()->getType() == "SpeedUp") || (ec->getObject2()->getType() == "SpeedUp")) {
 			speedUp = true;
 			move_speed = 4;
+			df::Sound* p_sound = RM.getSound("powerup");
+			p_sound->play();
 
 			setSprite("powered-up");
 			if (ec->getObject1()->getType() == "SpeedUp") {
@@ -114,6 +121,8 @@ int Player::eventHandler(const df::Event* p_e) {
 			slowDown = true;
 			move_speed = 1;
 			setSprite("powered-up");
+			df::Sound* p_sound = RM.getSound("powerup");
+			p_sound->play();
 			if (ec->getObject1()->getType() == "SlowDown") {
 				WM.markForDelete(ec->getObject1());
 			}
@@ -151,11 +160,17 @@ void Player::kbd(const df::EventKeyboard* p_keyboard_event) {
 		  break;
 	case df::Keyboard::S:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
-			setSprite("player-crouch");
+			if ((isInvinc == true) || (gotHops == true) || (speedUp == true) || (slowDown == true)) {
+				setSprite("powered-crouch");
+			}
+			else setSprite("player-crouch");
 			setPosition(df::Vector(getPosition().getX(), getPosition().getY() + .5));
 		}
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
-			setSprite("player");
+			if ((isInvinc == true) || (gotHops == true) || (speedUp == true) || (slowDown == true)) {
+				setSprite("powered-up");
+			} 
+			else setSprite("player");
 			setPosition(df::Vector(getPosition().getX(), getPosition().getY() - .5));
 		}
 		break;

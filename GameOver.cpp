@@ -38,8 +38,7 @@ GameOver::GameOver() {
   }
 
   // Play "game over" sound.
-  //df::Sound *p_sound = RM.getSound("game over");
-  //p_sound->play();
+
 
 }
 

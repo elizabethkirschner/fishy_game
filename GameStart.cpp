@@ -27,6 +27,9 @@ GameStart::GameStart() {
 
   // Register for step event.
   registerInterest(df::KEYBOARD_EVENT);
+
+  p_music = RM.getMusic("music");
+  playMusic();
 }
 
 int GameStart::eventHandler(const df::Event *p_e) {
@@ -72,6 +75,7 @@ void GameStart::start() {
   }
 
   new Scroller;
+  
 
 
   // When game starts, become inactive.
@@ -80,7 +84,7 @@ void GameStart::start() {
 
 // plays start music
 void GameStart::playMusic() {
-  //p_music->play();
+  p_music->play();
 }
 
 
