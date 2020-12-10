@@ -26,6 +26,7 @@ public:
 	Player();
 	~Player();
 	int eventHandler(const df::Event* p_e);
+	int maxHeight;
 };
 
 

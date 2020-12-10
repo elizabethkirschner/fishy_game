@@ -14,5 +14,6 @@ class Spawner : public df::Object {
   Spawner();
   ~Spawner();
   int eventHandler(const df::Event *p_e);
+  void powerup();
 
 };

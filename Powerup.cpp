@@ -13,6 +13,7 @@
 Powerup::Powerup(std::string spriteName) {
     setSprite(spriteName);
     setType("Powerup");
+    LM.writeLog("POWERUP TIME.\n\n\n");
 
     if (spriteName == PLACEHOLDER_POWERUP) {
         moveToStart(15);
@@ -81,7 +82,8 @@ void Powerup::hit(const df::EventCollision* p_c) {
     if (((p_c->getObject1()->getType()) == "Player") ||
         ((p_c->getObject2()->getType()) == "Player")) {
 
-        // do powerup things
+        EventDeath d;
+        WM.onEvent(&d);
     }
 }
 

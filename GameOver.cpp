@@ -1,4 +1,3 @@
-
 #include "GameOver.h"
 #include "EventStep.h"
 #include "WorldManager.h"
@@ -22,6 +21,13 @@ GameOver::GameOver() {
   // Register for step event.
   registerInterest(df::STEP_EVENT);
   setAltitude(df::MAX_ALTITUDE);
+
+  df::ObjectList spawner = WM.objectsOfType("Spawner");
+  df::ObjectListIterator s(&spawner);
+  for (s.first(); !s.isDone(); s.next()) {
+      df::Object* p_o = s.currentObject();
+      WM.markForDelete(p_o);
+  }
 
   // Play "game over" sound.
   //df::Sound *p_sound = RM.getSound("game over");
@@ -50,16 +56,17 @@ int GameOver::draw() {
 }
 
 GameOver::~GameOver() {
-  // Remove Saucers and ViewObjects, re-activate GameStart.
+  // Remove Enemies and ViewObjects, re-activate GameStart.
   df::ObjectList object_list = WM.getAllObjects(true);
   df::ObjectListIterator i(&object_list);
   for (i.first(); !i.isDone(); i.next()) {
     df::Object *p_o = i.currentObject();
-    if (p_o -> getType() == "Spawner" || p_o -> getType() == "ViewObject" || p_o -> getType() == "Enemy" || p_o->getType() == "Player" || p_o->getType() == "Ground")
-      WM.markForDelete(p_o);
     if (p_o -> getType() == "GameStart") {
       p_o -> setActive(true);
       //dynamic_cast <GameStart *> (p_o) -> playMusic(); // Resume start music.
+    }
+    else {
+        WM.markForDelete(p_o);
     }
   }
 }

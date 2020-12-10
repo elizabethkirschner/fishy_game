@@ -1,16 +1,25 @@
 <HEADER>
-frames 1
+frames 3
 width 7
 height 3
 color blue
-slowdown 3
+slowdown 10
 </HEADER>
 <BODY>
 ><(((o>
   | |  
   L L  
 end
+><(((o>
+  | \  
+  L  L 
+end
+><(((o>
+  / |  
+ L  L  
+end
 </BODY>
 <FOOTER>
 version 1
 </FOOTER>
+

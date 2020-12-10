@@ -7,10 +7,10 @@
 #include "WorldManager.h"
 #include "EventCollision.h"
 #include "ObjectList.h"
+#include "LogManager.h"
 
 // Game includes.
 #include "Explosion.h"
-#include "GameOver.h"
 
 
 Player::Player() {
@@ -27,9 +27,8 @@ Player::Player() {
 
 	move_slowdown = 2;
 	move_countdown = move_slowdown;
-	//setVelocity(df::Vector(0, .1));
 
-	canJump = 1;
+	canJump = 0;
 
 	move_speed = 2;
 
@@ -44,12 +43,17 @@ Player::Player() {
 	slowDownCount = 150;
 	invincCount = 150;
 	hopsCount = 150;
+
+	maxHeight = 15;
 	
 }
 
 Player::~Player() {
-
-	new GameOver;
+	// Make a big explosion with particles
+	df::addParticles(df::SPARKS, getPosition(), 2, df::BLUE);
+	df::addParticles(df::SPARKS, getPosition(), 2, df::YELLOW);
+	df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
+	df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
 }
 
 int Player::eventHandler(const df::Event* p_e) {
@@ -70,7 +74,21 @@ int Player::eventHandler(const df::Event* p_e) {
 		df::EventCollision* ec = (df::EventCollision*) p_e;
 		if ((ec->getObject1()->getType() == "Ground") || (ec->getObject2()->getType() == "Ground")) {
 			canJump = 1;
+			df::Vector velocity = getVelocity();
+			setVelocity(df::Vector(velocity.getX(), 0));
 		}
+		if ((ec->getObject1()->getType() == "Powerup") || (ec->getObject2()->getType() == "Powerup")) {
+			gotHops = true;
+			//gravity = .001;
+			maxHeight = maxHeight / 1.5;
+			setSprite("powered-up");
+			if (ec->getObject1()->getType() == "Powerup") {
+				WM.markForDelete(ec->getObject1());
+			}
+			else WM.markForDelete(ec->getObject2());
+		}
+
+		
 	}
 
 	return 0;
@@ -86,20 +104,27 @@ void Player::kbd(const df::EventKeyboard* p_keyboard_event) {
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
 			move(+move_speed);
 		break;
-	case df::Keyboard::SPACE:   // nuke!
-		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED){
+	case df::Keyboard::SPACE:   // jump
+		if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN){
 			if (canJump > 0) {
-				setVelocity(df::Vector(getVelocity().getX(), -.3));
-				canJump--;
+				if (getPosition().getY() > maxHeight) {
+					setVelocity(df::Vector(getVelocity().getX(), getVelocity().getY() - .01));
+				}
+				else canJump = 0;
 			}
+		}
+		if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
+			canJump = 0;
 		}
 		  break;
 	case df::Keyboard::S:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
 			setSprite("player-crouch");
+			setPosition(df::Vector(getPosition().getX(), getPosition().getY() + .5));
 		}
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
 			setSprite("player");
+			setPosition(df::Vector(getPosition().getX(), getPosition().getY() - .5));
 		}
 		break;
 	case df::Keyboard::U:
@@ -121,7 +146,8 @@ void Player::kbd(const df::EventKeyboard* p_keyboard_event) {
 	case df::Keyboard::H:
 		if ((p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) && (gotHops == false)) {
 			gotHops = true;
-			gravity = .001;
+			//gravity = .001;
+			maxHeight = maxHeight / 1.5;
 			setSprite("powered-up");
 
 		}
@@ -168,7 +194,7 @@ void Player::jump() {
 }
 void Player::step() {
 
-	LM.writeLog("%d\n\n", speedUpCount);
+	//LM.writeLog("%d\n\n", speedUpCount);
 	move_countdown--;
 	if (move_countdown < 0) {
 		move_countdown = 0;
@@ -191,7 +217,6 @@ void Player::step() {
 			move_speed = 2;
 			slowDownCount = 150;
 			setSprite("player");
-
 		}
 	}
 
@@ -199,10 +224,10 @@ void Player::step() {
 		hopsCount--;
 		if (hopsCount <= 0) {
 			gotHops = false;
-			gravity = .01;
+		//	gravity = .01;
+			maxHeight = maxHeight * 1.5;
 			hopsCount = 150;
 			setSprite("player");
-
 		}
 	}
 
@@ -220,11 +245,14 @@ void Player::step() {
 				p_o->setSolidness(df::Solidness::SPECTRAL);
 			}
 			invincCount = 150;
-
 		}
 	}
 
 	df::Vector velocity = getVelocity();
-	setVelocity(df::Vector(velocity.getX(), velocity.getY() + gravity));
-
+	if (canJump == 0) {
+		setVelocity(df::Vector(velocity.getX(), velocity.getY() + gravity));
+	}
+	else {
+		setVelocity(df::Vector(velocity.getX(), velocity.getY()));
+	}
 }

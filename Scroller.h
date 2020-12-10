@@ -9,5 +9,6 @@ public:
 	float speed;
 	int eventHandler(const df::Event* p_e);
 	void step();
+	int stepCount;
 };
 

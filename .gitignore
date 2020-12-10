@@ -13,3 +13,12 @@ fishy_game.sln
 *.recipe
 game
 .DS_Store
+.vs/fishy-game/v16/.suo
+*.tlog
+x64/Debug/fishy-game.vcxproj.FileListAbsolute.txt
+*.user
+*.vcxproj
+*.sln
+*.pdb
+*.idb
+*.obj

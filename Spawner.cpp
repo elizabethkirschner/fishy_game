@@ -6,11 +6,13 @@
 #include "EventStep.h"
 
 #include "Enemy.h"
-#include "GameOver.h"
 #include "Spawner.h"
 #include "Explosion.h"
-#include <stdlib.h>
 #include "Powerup.h"
+#include "Bubble.h"
+
+#include <stdlib.h>
+
 
 Spawner::Spawner() {
   registerInterest(df::STEP_EVENT);
@@ -28,7 +30,6 @@ Spawner::Spawner() {
 }
 
 Spawner::~Spawner() {
-  GameOver *p_go = new GameOver;
 }
 
 int Spawner::eventHandler(const df::Event *p_e) {
@@ -37,13 +38,18 @@ int Spawner::eventHandler(const df::Event *p_e) {
     const df::EventStep *p_step_event = 
       dynamic_cast <const df::EventStep *> (p_e);
     // TODO: vary spawn rate
-    if (p_step_event -> getStepCount() % 150 == 0) {
+    if (p_step_event -> getStepCount() % 50 == 0) {
       spawn();
     }
 
     if (p_step_event->getStepCount() % 300 == 0) {
+      //  LM.writeLog("time to spawn again");
+        powerup();
+    }
+    if (p_step_event->getStepCount() % 30 == 0) {
         LM.writeLog("time to spawn again");
-       // powerup();
+        // bubble()
+        // new Bubble;
     }
     return 1;
   }
@@ -62,12 +68,12 @@ void Spawner::spawn() {
    new Enemy(SEAWEED_ENEMY);
  }
  else if (chance <= 99) {
-   //new Enemy;
+   //  new Enemy(SEAWEED_ENEMY);
  }
 
 }
 
-/*
+
 void Spawner::powerup() {
     int chance = rand() % 100;
 
@@ -80,9 +86,9 @@ void Spawner::powerup() {
         new Powerup(PLACEHOLDER_POWERUP_2);
     }
     else if (chance <= 99) {
-
+        new Powerup(PLACEHOLDER_POWERUP);
     }
-}*/
+}
 
 // Take appropriate action according to mouse action.
 void Spawner::mouse(const df::EventMouse *p_mouse_event) {
