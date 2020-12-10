@@ -36,10 +36,13 @@ int Spawner::eventHandler(const df::Event *p_e) {
     const df::EventStep *p_step_event = 
       dynamic_cast <const df::EventStep *> (p_e);
     // TODO: vary spawn rate
+    if (p_step_event -> getStepCount() == 50) {
+      new Enemy(SEAWEED_ENEMY);
+    }
     if (p_step_event -> getStepCount() % 150 == 0) {
       spawn();
     }
-    if (p_step_event->getStepCount() % 300 == 0) {
+    if (p_step_event->getStepCount() % 350 == 0) {
         //LM.writeLog("time to spawn again");
        power();
     }
