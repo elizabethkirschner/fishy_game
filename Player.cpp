@@ -12,6 +12,7 @@
 // Game includes.
 #include "Player.h"
 #include "Explosion.h"
+#include "DeadPlayer.h"
 
 
 Player::Player() {
@@ -174,7 +175,7 @@ void Player::kbd(const df::EventKeyboard* p_keyboard_event) {
 			setPosition(df::Vector(getPosition().getX(), getPosition().getY() - .5));
 		}
 		break;
-	case df::Keyboard::U:
+	/*case df::Keyboard::U:
 		if ((p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) && (speedUp == false)) {
 
 			setSprite("powered-up");
@@ -212,15 +213,15 @@ void Player::kbd(const df::EventKeyboard* p_keyboard_event) {
 				p_o->setSolidness(df::Solidness::SPECTRAL);
 			}
 		}
-		break;
+		break;*/
 	  case df::Keyboard::Q:        // quit
 		  if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
-			  WM.markForDelete(this);
+			  new DeadPlayer(getPosition());
 		  break;
 	  default: // Key not handled.
 		  return;
 	};
-
+	
 	return;
 }
 

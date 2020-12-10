@@ -1,7 +1,7 @@
 <HEADER>
 frames 2
 width 71
-height 10
+height 13
 color blue
 slowdown 15
 </HEADER>
@@ -16,6 +16,9 @@ slowdown 15
              Controls: 'a'/'d' moves, Space to jump, 'q' quits         
                                                                        
                     Press 'space' to play, 'q' to quit                 
+                                                                       
+ Powerups: |I| - Invincible |J| - Jump |S| - Slowdown |F| - Speedup    
+                                                                       
 end
            _____ _     _              ____                             
           |  ___(_)___| |__  _   _   / ___| __ _ _ __ ___   ___        
@@ -26,6 +29,9 @@ end
                                                                        
              Controls: 'a'/'d' moves, Space to jump, 'q' quits         
                                                                        
+                                                                       
+                                                                       
+ Powerups: |I| - Invincible |J| - Jump |S| - Slowdown |F| - Speedup    
                                                                        
 end
 </BODY>
